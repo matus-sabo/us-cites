@@ -33,9 +33,7 @@ builder.queryField("node", (t) =>
     args: { id: t.arg.string({ required: true }) },
 
     resolve: async (parent, args, { ctx }) => {
-      console.log(args);
       const { type, id } = ctx.call.graphql.decodeNodeId(args.id);
-      console.log(type, id);
       if (type === "State") {
         const node = await ctx.call.prisma.state.findUnique({ where: { id } });
         if (!node) {
