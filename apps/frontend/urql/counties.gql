@@ -1,0 +1,29 @@
+query Counties(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $filter: CountyConnectionFilterInput
+) {
+  counties(
+    first: $first
+    after: $after
+    last: $last
+    before: $before
+    filter: $filter
+  ) {
+    nodes {
+      id
+      name
+      fips
+      state {
+        id
+        name
+      }
+    }
+    pageInfo {
+      ...ConnectionPageInfo
+    }
+    totalCount
+  }
+}

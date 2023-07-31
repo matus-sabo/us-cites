@@ -1,0 +1,33 @@
+query Cities(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $filter: CityConnectionFilterInput
+) {
+  cities(
+    first: $first
+    after: $after
+    last: $last
+    before: $before
+    filter: $filter
+  ) {
+    nodes {
+      id
+      name
+      externalId
+      state {
+        id
+        name
+      }
+      county {
+        id
+        name
+      }
+    }
+    pageInfo {
+      ...ConnectionPageInfo
+    }
+    totalCount
+  }
+}

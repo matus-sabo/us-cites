@@ -1,0 +1,6 @@
+fragment ConnectionPageInfo on ConnectionPageInfo {
+  hasNextPage
+  hasPreviousPage
+  startCursor
+  endCursor
+}

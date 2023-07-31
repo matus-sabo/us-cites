@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model State {
+  id        String   @id @default(dbgenerated("gen_random_uuid()"))
+  name      String
+  shortName String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  county County[]
+  city   City[]
+
+  @@index([name(ops: raw("gist_trgm_ops"))], type: Gist)
+}
+
+model County {
+  id        String   @id @default(dbgenerated("gen_random_uuid()"))
+  name      String
+  fips      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stateId String
+  state   State  @relation(fields: [stateId], references: [id])
+
+  city City[]
+
+  @@index([name(ops: raw("gist_trgm_ops"))], type: Gist)
+  @@index([stateId])
+}
+
+model City {
+  id         String   @id @default(dbgenerated("gen_random_uuid()"))
+  name       String
+  externalId String
+  data       Json     @db.JsonB
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  stateId  String
+  state    State  @relation(fields: [stateId], references: [id])
+  countyId String
+  county   County @relation(fields: [countyId], references: [id])
+
+  @@index([name(ops: raw("gist_trgm_ops"))], type: Gist)
+  @@index([stateId])
+  @@index([countyId])
+}

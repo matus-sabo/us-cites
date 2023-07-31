@@ -1,0 +1,25 @@
+query States(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $filter: StateConnectionFilterInput
+) {
+  states(
+    first: $first
+    after: $after
+    last: $last
+    before: $before
+    filter: $filter
+  ) {
+    nodes {
+      id
+      name
+      shortName
+    }
+    pageInfo {
+      ...ConnectionPageInfo
+    }
+    totalCount
+  }
+}

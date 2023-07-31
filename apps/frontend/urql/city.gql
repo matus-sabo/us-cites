@@ -1,0 +1,29 @@
+query City($id: String!) {
+  node(id: $id) {
+    ... on City {
+      id
+      name
+      externalId
+      data {
+        lat
+        lng
+        population
+        density
+        source
+        military
+        incorporated
+        timezone
+        ranking
+        zips
+      }
+      state {
+        id
+        name
+      }
+      county {
+        id
+        name
+      }
+    }
+  }
+}
